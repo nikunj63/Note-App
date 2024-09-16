@@ -8,6 +8,9 @@ class Employee extends StatefulWidget {
 }
 
 class _EmployeeState extends State<Employee> {
+  TextEditingController namecontoller= new TextEditingController();
+  TextEditingController agecontoller= new TextEditingController();
+  TextEditingController locationcontoller= new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,8 +56,9 @@ class _EmployeeState extends State<Employee> {
               decoration: BoxDecoration(
                 border: Border.all(),borderRadius: BorderRadius.circular(10)
               ),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: namecontoller ,
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
               ),
@@ -75,8 +79,9 @@ class _EmployeeState extends State<Employee> {
               decoration: BoxDecoration(
                 border: Border.all(),borderRadius: BorderRadius.circular(10)
               ),
-              child:const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: agecontoller,
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
               ),
@@ -96,8 +101,9 @@ class _EmployeeState extends State<Employee> {
               decoration: BoxDecoration(
                 border: Border.all(),borderRadius: BorderRadius.circular(10)
               ),
-              child:const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: locationcontoller,
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
               ),
@@ -105,7 +111,11 @@ class _EmployeeState extends State<Employee> {
            const SizedBox(height: 30.0,),
             Center(
               child: ElevatedButton(
-                onPressed: (){}, 
+                onPressed: (){
+                  Map<String, dynamic> employeeInfoMap={
+                    
+                  };
+                }, 
                 child: const Text(
                   "Add",style: TextStyle(
                     fontSize: 20,
