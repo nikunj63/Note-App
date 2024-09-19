@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_crud/services/database.dart';
+import 'package:random_string/random_string.dart';
 
 class Employee extends StatefulWidget {
   const Employee({super.key});
@@ -111,10 +113,14 @@ class _EmployeeState extends State<Employee> {
            const SizedBox(height: 30.0,),
             Center(
               child: ElevatedButton(
-                onPressed: (){
+                onPressed: () async{
+                  String ID = randomAlphaNumeric(10);
                   Map<String, dynamic> employeeInfoMap={
-                    
+                    "Name":namecontoller.text,
+                    "Age":agecontoller.text,
+                    "Location":locationcontoller.text,
                   };
+                  await Database().addEmployeeDetails(employeeInfoMap,ID);
                 }, 
                 child: const Text(
                   "Add",style: TextStyle(
