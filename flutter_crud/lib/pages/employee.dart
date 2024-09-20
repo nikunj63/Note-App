@@ -120,7 +120,17 @@ class _EmployeeState extends State<Employee> {
                     "Age":agecontoller.text,
                     "Location":locationcontoller.text,
                   };
-                  await Database().addEmployeeDetails(employeeInfoMap,ID);
+                  await Database().addEmployeeDetails(employeeInfoMap,ID).then((value){
+                    Fluttertoast.showToast(
+        msg: "This is Center Short Toast",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+                  });
                 }, 
                 child: const Text(
                   "Add",style: TextStyle(
