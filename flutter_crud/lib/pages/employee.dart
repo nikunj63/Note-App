@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_crud/services/database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_string/random_string.dart';
 
 class Employee extends StatefulWidget {
@@ -122,7 +123,7 @@ class _EmployeeState extends State<Employee> {
                   };
                   await Database().addEmployeeDetails(employeeInfoMap,ID).then((value){
                     Fluttertoast.showToast(
-        msg: "This is Center Short Toast",
+        msg: "Employee detail has been uploaded sucessfully",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
