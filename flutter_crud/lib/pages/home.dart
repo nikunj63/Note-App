@@ -11,6 +11,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController namecontoller= new TextEditingController();
+  TextEditingController agecontoller= new TextEditingController();
+  TextEditingController locationcontoller= new TextEditingController();
 
   Stream? EmployeeStream;
   getontheload()async{
@@ -46,14 +49,28 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        
                         children: [
                           Text("Name: "+ds["Name"],
                           style: TextStyle(
                             color: Colors.blue,fontSize: 20.0,fontWeight:FontWeight.bold
                           ),
                           ),
-                          Icon(Icons.edit,color:Colors.orange),
+                          Spacer(),
+                          GestureDetector(
+                            onTap:(){
+                              namecontoller.text=ds["Name"];
+                              agecontoller.text=ds["Age"];
+                              locationcontoller.text=ds["Location"];
+                              EditEmployeeDetail(ds["ID"]);
+                            },
+                            child: Icon(Icons.edit,color:Colors.orange)),
+                            SizedBox(width: 5.0,),
+                            GestureDetector(
+                              onTap: ()async{
+                                await Database().deleteEmployeeDetails(ds["ID"]);
+                              },
+                              child: Icon(Icons.delete,color:Colors.orange))
                         ],
                       ),
                       Text("Age:"+ds["Age"],
@@ -117,4 +134,121 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+  Future EditEmployeeDetail(String id)=> showDialog(context: context, builder: (contex)=> AlertDialog(
+    content: Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.cancel)
+                ),
+                SizedBox(width: 60.0,),
+                Text(
+              "Edit",
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 25,
+                fontWeight:FontWeight.bold,
+              ),
+            ),
+            Text(
+              "Details",
+              style: TextStyle(
+                color: Colors.orange,
+                fontSize: 25,
+                fontWeight:FontWeight.bold,
+              ),
+            ),
+            ],
+          ),
+          SizedBox(height: 20.0,),
+          const Text(
+              "Name",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+           const SizedBox(height: 10.0,),
+            Container(
+              padding: const EdgeInsets.only(left: 10.0),
+              decoration: BoxDecoration(
+                border: Border.all(),borderRadius: BorderRadius.circular(10)
+              ),
+              child: TextField(
+                controller: namecontoller ,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
+              
+            ),
+           const SizedBox(height: 20,),
+           const Text(
+              "Age",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+           const SizedBox(height: 10.0,),
+            Container(
+              padding:const EdgeInsets.only(left: 10.0),
+              decoration: BoxDecoration(
+                border: Border.all(),borderRadius: BorderRadius.circular(10)
+              ),
+              child: TextField(
+                controller: agecontoller,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+           const SizedBox(height: 20,),
+           const Text(
+              "Location",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+           const SizedBox(height: 10.0,),
+            Container(
+              padding: const EdgeInsets.only(left: 10.0),
+              decoration: BoxDecoration(
+                border: Border.all(),borderRadius: BorderRadius.circular(10)
+              ),
+              child: TextField(
+                controller: locationcontoller,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            SizedBox(height: 30.0,),
+            Center(child: ElevatedButton(
+              onPressed: ()async{
+                Map<String, dynamic> updateInfo={
+                  "Name":namecontoller.text,
+                  "Age":agecontoller.text,
+                  "ID":id,
+                  "Location":locationcontoller.text,
+                };
+                await Database().UpdateEmployeeDetails(id,updateInfo).then((value){
+                  Navigator.pop(context);
+                });
+            },
+             child: Text("Update")))
+        ],
+      ),
+    ),
+  ));
 }
